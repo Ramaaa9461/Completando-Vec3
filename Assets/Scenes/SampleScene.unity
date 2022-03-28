@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &510544252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510544254}
+  - component: {fileID: 510544253}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &510544253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510544252}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a194e1dc0be84469790d5489ed630e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Exercise: 8
+  vector1: {x: 10, y: 20, z: 30}
+  vector2: {x: -10, y: 5, z: 10}
+--- !u!4 &510544254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510544252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.670092, y: 8.591258, z: -9.950566}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &571323059
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,10 +198,10 @@ MonoBehaviour:
   m_Script: {fileID: 642327099, guid: 5defc71c69aa61f45aa76f775325cf97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ejercicio: 5
+  ejercicio: 7
   vectorColor: {r: 1, g: 0, b: 0, a: 1}
-  a: {x: 10, y: 0, z: 0}
-  b: {x: -10, y: 0, z: 0}
+  a: {x: 10, y: 20, z: 30}
+  b: {x: -10, y: 5, z: 10}
 --- !u!4 &571323061
 Transform:
   m_ObjectHideFlags: 0

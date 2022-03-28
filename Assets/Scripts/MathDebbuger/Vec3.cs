@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+
 namespace CustomMath
+
 {
     public struct Vec3 : IEquatable<Vec3>
     {
@@ -120,6 +122,11 @@ namespace CustomMath
 
         public static implicit operator Vector2(Vec3 v2)
         {
+            return new Vector2(v2.x, v2.y);
+        }
+
+        public static implicit operator Vec3(Vector3 v)
+        {
             throw new NotImplementedException();
         }
         #endregion
@@ -131,25 +138,26 @@ namespace CustomMath
         }
         public static float Angle(Vec3 from, Vec3 to)
         {
-            float num = (float)Math.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
-            if (num < 1E-15f)
+            float value = (float)Math.Sqrt(from.sqrMagnitude * to.sqrMagnitude); //Calcula la raiz cadradrada de los cuadrados de las magnitudes 
+            if (value < 1E-15f) // Se compara el resutado contra kEpsilonNormalSqrt (Un numero muy pequeño)
             {
-                return 0f;
+                return 0f; //En caso de que sea menor se redondea a 0
             }
 
-            float num2 = Mathf.Clamp(Dot(from, to) / num, -1f, 1f);
-            return (float)Math.Acos(num2) * 57.29578f;
-        }
+            float aux = Mathf.Clamp(Dot(from, to) / value, -1f, 1f); //Hace el calculo para conseguir la magnitud normalizada y lo clampea entre 1 y -1
+            return (float)Math.Acos(aux) * 57.29578f; //Multiplica el "Acos" del resultado * PI / 3
+
+        } //https://answers.unity.com/questions/1294512/how-vectorangle-works-internally-in-unity.html
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
         {
-            float num = vector.sqrMagnitude;
-            if (num > maxLength * maxLength)
+            float num = vector.sqrMagnitude; //Asigna a "num" la magnitud al cuadrado
+            if (num > maxLength * maxLength) // verifica contra el maximo al cuadrado
             {
-                float num2 = (float)Math.Sqrt(num);
+                float num2 = (float)Math.Sqrt(num); //En caso de que sea menor, calcula la raiz cuadrada
                 float num3 = vector.x / num2;
                 float num4 = vector.y / num2;
-                float num5 = vector.z / num2;
-                return new Vec3(num3 * maxLength, num4 * maxLength, num5 * maxLength);
+                float num5 = vector.z / num2; //Y normaliza los ejes
+                return new Vec3(num3 * maxLength, num4 * maxLength, num5 * maxLength); //retorna los valores normalizados multiplicados por el maximo
             }
 
             return vector;
@@ -265,7 +273,8 @@ namespace CustomMath
 //Ejercicio 2: RESTA vectores
 //Ejercicio 3: Multiplica vectores
 //Ejercicio 4: Producto Cruz
-//Ejercicio 5: Proyecta la trayectoria entre un vector y otro?
+//Ejercicio 5: lerp de la trayectoria entre un vector y otro?
 //Ejercicio 6: Toma el maximo de cada eje
-//Ejercicio 7: 
+//Ejercicio 7: Proyeccion
+//Ejercicio 8: Suma a y b normalizada y el largo es la distancia entre a y b
 //
