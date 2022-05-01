@@ -15,7 +15,7 @@ namespace CustomMath
         private static Vec3 zero;
 
         public float sqrMagnitude { get { throw new NotImplementedException(); } }
-        public Vector3 normalized { get { throw new NotImplementedException(); } }
+        public Vec3 normalized { get { throw new NotImplementedException(); } }
         public float magnitude { get { throw new NotImplementedException(); } }
         #endregion
 
@@ -71,6 +71,7 @@ namespace CustomMath
             this.y = v2.y;
             this.z = 0.0f;
         }
+
         #endregion
 
         #region Operators
@@ -127,7 +128,7 @@ namespace CustomMath
 
         public static implicit operator Vec3(Vector3 v)
         {
-            throw new NotImplementedException();
+            return new Vec3(v.x, v.y, v.z);
         }
         #endregion
 
@@ -229,12 +230,12 @@ namespace CustomMath
             y *= scale.y;
             z *= scale.z;
         }
-        public void Normalize()
+        public void Normalize(Vec3 inNormal)
         {
-            float mag = this.magnitude;
-            this.x /= mag;
-            this.y /= mag;
-            this.z /= mag;
+            float mag = inNormal.magnitude;
+            inNormal.x /= mag;
+            inNormal.y /= mag;
+            inNormal.z /= mag;
 
             //float num = Magnitude(this);
             //if (num > 1E-05f)
@@ -266,6 +267,7 @@ namespace CustomMath
         }
         #endregion
     }
+
 }
 
 

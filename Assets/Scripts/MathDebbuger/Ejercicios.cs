@@ -80,7 +80,7 @@ public class Ejercicios : MonoBehaviour
 
 
                 interpolationRatio += 0.005f;
-//float a = 10000f * Time.deltaTime; //aca A = 0, por eso no estoy usando el delta time
+//float a = 10000f * Time.deltaTime; //aca A me da que es = 0, por eso no estoy usando el delta time
 
                 if (interpolationRatio > 1)
                 {
@@ -95,7 +95,8 @@ public class Ejercicios : MonoBehaviour
                 break;
             case 7:
 
-                result = Vec3.Project( vec1, vec2); // Tira bien la proyeccion, pero la hace inversa y mas corta
+                Vec3 largeTovec3Result = vec1 + vec2 * 2;
+                result = Vec3.Project(largeTovec3Result, vec2); // Tira bien la proyeccion, pero la hace inversa y mas corta
 
                 break;
             case 8:
@@ -103,7 +104,7 @@ public class Ejercicios : MonoBehaviour
              
                 break;
             case 9:
-
+                
 
 
                 break;
