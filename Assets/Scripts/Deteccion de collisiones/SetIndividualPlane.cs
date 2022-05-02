@@ -1,25 +1,26 @@
 using CustomMath;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+
+enum PlaneOrientation { Down = 0, Up = 1, Forward = 2, Back = 3, Right = 4, Left = 5 }
 
 public class SetIndividualPlane : MonoBehaviour
 {
-    List<Planes> roomPlanes;
+    List<Planes> wallPlanes;
 
     MeshFilter mf;
     Mesh mesh;
     List<Vec3> vertx;
 
-    enum PlaneOrientation { Down = 4, Up = 1, Forward = 5, Back = 7, Right = 6, Left = 0 }
+    [SerializeField][Range(0,1)] int normalOrientation = 0; //0 es normal negativa / 1 es normal positiva
     [SerializeField] PlaneOrientation planeOrientation = 0;
-    //2, 3 tmb es arriba
 
+    Vec3 normal;
+    Vec3 dir;
     private void Awake()
     {
         vertx = new List<Vec3>();
-        roomPlanes = new List<Planes>();
+        wallPlanes = new List<Planes>();
 
         mf = transform.GetComponent<MeshFilter>();
         mesh = mf.sharedMesh;
@@ -31,51 +32,81 @@ public class SetIndividualPlane : MonoBehaviour
 
     void MeshCalculator()
     {
-        for (int i = 0; i < mesh.vertexCount; i++)
+        switch (planeOrientation)
         {
-            vertx.Add(FromLocalToWolrd(mesh.vertices[i], transform));
+            case PlaneOrientation.Down:
+
+                dir = -transform.up;
+
+                break;
+            case PlaneOrientation.Up:
+                
+                dir = transform.up;
+                
+                break;
+            case PlaneOrientation.Forward:
+
+                dir = transform.forward;
+                
+                break;
+            case PlaneOrientation.Back:
+
+                dir = -transform.forward;
+
+                break;
+            case PlaneOrientation.Right:
+
+                dir = transform.right;
+
+                break;
+            case PlaneOrientation.Left:
+
+                dir = -transform.right;
+                
+                break;
+        }
+        if (normalOrientation == 0)
+        {
+            normal = dir;
+        }
+        else
+        {
+            normal = -dir;
         }
 
-        for (int i = 0; i < vertx.Count; i += 3)
-        {
-            roomPlanes.Add(new Planes(vertx[i], vertx[i + 1], vertx[i + 2]));
-        }
+        wallPlanes.Add(new Planes(normal, dir));
+       // GameManager.instance.addPlaneRoom(wallPlanes[(int)normalOrientation]);
 
     }
 
     private Vec3 FromLocalToWolrd(Vec3 point, Transform transformRef) //Transforma las coordenadas locales a globales
     {
-        Vector3 result = Vector3.zero;
+        Vec3 result = Vector3.zero;
 
         result = new Vector3(point.x * transformRef.localScale.x, point.y * transformRef.localScale.y, point.z * transformRef.localScale.z);
 
-        result = transformRef.localRotation * result;
+        result = transformRef.rotation * result;
 
-        return result + transformRef.position;
+        return (Vector3)result + transformRef.position;
 
     }
 
-
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (vertx == null)
-        {
-            return;
-        }
-
-        Handles.color = Color.blue;
         Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(dir, 0.2f);
 
-        Handles.ArrowHandleCap(0, roomPlanes[(int)planeOrientation].normal, Quaternion.LookRotation(roomPlanes[(int)planeOrientation].normal), .3f, EventType.Repaint);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(normal, 0.2f);
 
-        for (int k = 0; k < vertx.Count; k++)
+        Gizmos.color = Color.red;
+        for (int i = 0; i < wallPlanes.Count; i++)
         {
-            Gizmos.DrawSphere(vertx[k], 0.05f);
+        Gizmos.DrawSphere(wallPlanes[i].normal, 0.2f);
+
         }
-
-        //Gizmos.DrawSphere(roomPlanes[1].normal, .2f);
-
     }
+#endif
 }
 

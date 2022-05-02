@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 5
+  normalOrientation: 3
+  planeOrientation: 2
 --- !u!1 &5591033756077042929
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 6
+  normalOrientation: 0
+  planeOrientation: 0
 --- !u!1 &5591033756495726979
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalOrientation: 0
   planeOrientation: 1
 --- !u!1 &5591033756722936688
 GameObject:
@@ -435,7 +438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 0
+  normalOrientation: 4
+  planeOrientation: 5
 --- !u!1 &5591033756955692644
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 6
+  normalOrientation: 5
+  planeOrientation: 4
 --- !u!1 &5591033757227023316
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 4
+  normalOrientation: 1
+  planeOrientation: 0
 --- !u!1 &5591033757337507558
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalOrientation: 0
   planeOrientation: 0
 --- !u!1 &5591033757485156091
 GameObject:
@@ -814,7 +821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 7
+  normalOrientation: 2
+  planeOrientation: 3
 --- !u!1 &5591033757638435397
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,4 +931,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198149659c70be40a91fc72c832475d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeOrientation: 5
+  normalOrientation: 0
+  planeOrientation: 0
