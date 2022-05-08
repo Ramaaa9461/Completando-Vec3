@@ -7,18 +7,20 @@ public class SetRoom : MonoBehaviour
 {
     Planes[] room = new Planes[6];
     int count = 0;
-   public void AddPlaneToRoom(Planes planeToAdd)
+    public void AddPlaneToRoom(Planes planeToAdd)
     {
         room[count] = planeToAdd;
         count++;
+
+        if (count == 6)
+        {
+            sendRoomToGameManager();
+        }
     }
 
     void sendRoomToGameManager()
     {
-        if (count == 6)
-        {
-            GameManager.instance.addRoom(room);
-        }
+        GameManager.instance.addRoom(room);
     }
 
 }
