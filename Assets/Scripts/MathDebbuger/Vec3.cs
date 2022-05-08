@@ -9,14 +9,15 @@ namespace CustomMath
     public struct Vec3 : IEquatable<Vec3>
     {
         #region Variables
+
         public float x;
         public float y;
         public float z;
         private static Vec3 zero;
 
-        public float sqrMagnitude { get { throw new NotImplementedException(); } }
-        public Vec3 normalized { get { throw new NotImplementedException(); } }
-        public float magnitude { get { throw new NotImplementedException(); } }
+        public float sqrMagnitude { get { return x* x +y * y + z * z; } }
+        public Vec3 normalized { get { return Normalize(this); } }
+        public float magnitude { get { return (float)Mathf.Sqrt(x * x + y * y + z * z); } }
         #endregion
 
         #region constants
@@ -181,7 +182,7 @@ namespace CustomMath
         }
         public static float Dot(Vec3 a, Vec3 b)
         {
-            return a.x * b.x + a.y + b.y + a.z + b.z;
+            return a.x * b.x + a.y * b.y + a.z * b.z;
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
@@ -230,22 +231,22 @@ namespace CustomMath
             y *= scale.y;
             z *= scale.z;
         }
-        public void Normalize(Vec3 inNormal)
+        public Vec3 Normalize(Vec3 inNormal)
         {
-            float mag = inNormal.magnitude;
-            inNormal.x /= mag;
-            inNormal.y /= mag;
-            inNormal.z /= mag;
+            //float mag = inNormal.magnitude;
+            //inNormal.x /= mag;
+            //inNormal.y /= mag;
+            //inNormal.z /= mag;
 
-            //float num = Magnitude(this);
-            //if (num > 1E-05f)
-            //{
-            //    this /= num;
-            //}
-            //else
-            //{
-            //    this = zero;
-            //}
+            float num = Magnitude(inNormal);
+            if (num > 1E-05f)
+            {
+                return inNormal / num;
+            }
+            else
+            {
+                return zero;
+            }
         }
         #endregion
 

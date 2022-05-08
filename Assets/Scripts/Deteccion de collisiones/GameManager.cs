@@ -8,23 +8,19 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField] Camera cam;
-    List<Planes[]> planes;
+    List<Planes[]> rooms;
 
     void Awake()
     {
         instance = this;
 
-        planes = new List<Planes[]>();
-
+        rooms = new List<Planes[]>();
     }
 
     public void addRoom(Planes[] room)
     {
-        planes.Add(room);
+        rooms.Add(room);
     }
 
-
-
-
-
+    
 }

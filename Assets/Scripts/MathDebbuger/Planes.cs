@@ -62,8 +62,8 @@ namespace CustomMath
 
         public Planes(Vec3 inNormal, Vec3 inPoint)
         {
-            m_Normal = Vector3.Normalize(inNormal); 
-           
+            m_Normal = Vector3.Normalize(inNormal);
+
             m_Distance = 0f - Vec3.Dot(m_Normal, inPoint);
         }
         public Planes(Vec3 inNormal, float d)
@@ -159,7 +159,7 @@ namespace CustomMath
         //     The translated plane.
         public static Planes Translate(Planes planes, Vec3 translation)
         {
-            return new Planes(planes.m_Normal, planes.m_Distance += Vec3.Dot(planes.m_Normal, translation));  
+            return new Planes(planes.m_Normal, planes.m_Distance += Vec3.Dot(planes.m_Normal, translation));
         }
 
         //
@@ -172,7 +172,7 @@ namespace CustomMath
         //
         // Devuelve:
         //     A point on the plane that is closest to point.
-        public Vector3 ClosestPointOnPlane(Vec3 point)
+        public Vec3 ClosestPointOnPlane(Vec3 point)
         {
             float num = Vec3.Dot(m_Normal, point) + m_Distance;
             return point - m_Normal * num;
@@ -186,7 +186,8 @@ namespace CustomMath
         //   point:
         public float GetDistanceToPoint(Vec3 point)
         {
-            return Vec3.Dot(m_Normal, point) + m_Distance;
+            // return Vec3.Dot(m_Normal, point) + m_Distance;
+             return (Vec3.Dot(m_Normal, point) + m_Distance) / point.magnitude;
         }
 
         //
@@ -197,7 +198,8 @@ namespace CustomMath
         //   point:
         public bool GetSide(Vec3 point)
         {
-            return Vec3.Dot(m_Normal, point) + m_Distance > 0f;
+            //return Vec3.Dot(m_Normal, point) + m_Distance > 0f;
+            return GetDistanceToPoint(point) >= 0f;
         }
 
         //
@@ -238,9 +240,9 @@ namespace CustomMath
         {
             return ToString(format, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
         }
-     
 
         #endregion
+
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return string.Empty;

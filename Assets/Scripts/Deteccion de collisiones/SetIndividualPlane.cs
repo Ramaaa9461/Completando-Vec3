@@ -9,22 +9,16 @@ public class SetIndividualPlane : MonoBehaviour
 
     [SerializeField] GameObject point;
     [SerializeField] [Range(0, 1)] int normalDirection;
+    public bool sameSide = false;
 
     void Start()
     {
-        MeshCalculator();
+        setPlane();
     }
 
-    void MeshCalculator()
+    void setPlane()
     {
-        if (normalDirection == 0)
-        {
-            wallPlanes = new Planes(transform.forward, transform.position);
-        }
-        else
-        {
-            wallPlanes = new Planes(-transform.forward, transform.position);
-        }
+        wallPlanes = new Planes(transform.forward, transform.position);
 
         GetComponentInParent<SetRoom>().AddPlaneToRoom(wallPlanes);
     }
@@ -33,15 +27,21 @@ public class SetIndividualPlane : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log(wallPlanes.GetSide(point.transform.position), gameObject);
+           Debug.Log(wallPlanes.GetSide(point.transform.position), gameObject);
+          // Debug.Log(wallPlanes.normal, gameObject);
         }
+
+        sameSide = wallPlanes.GetSide(point.transform.position);
     }
 
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
+
+        //Gizmos.DrawLine(transform.position, transform.forward );
+
 
         // Gizmos.DrawSphere(FromLocalToWolrd(wallPlanes.normal, transform) + (Vector3)wallPlanes.normal, 0.2f);
 
