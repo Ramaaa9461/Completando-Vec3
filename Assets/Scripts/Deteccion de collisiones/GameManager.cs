@@ -8,32 +8,22 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField] Camera cam;
- 
-    struct Room
-    {
-        const int plansPerRoom = 8;
-        int id;
-    }
+    List<Planes[]> planes;
 
     void Awake()
     {
         instance = this;
 
-       // rooms = new List<Planes>();
+        planes = new List<Planes[]>();
 
     }
 
-    public void addPlaneRoom(Planes plane)
+    public void addRoom(Planes[] room)
     {
-        //rooms.Add(plane);
+        planes.Add(room);
     }
 
-    private void Update()
-    {
 
-   
-
-    }
 
 
 

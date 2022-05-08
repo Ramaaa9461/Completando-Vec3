@@ -1,30 +1,15 @@
 using CustomMath;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-
-enum PlaneOrientation { Down = 0, Up = 1, Forward = 2, Back = 3, Right = 4, Left = 5 }
 
 public class SetIndividualPlane : MonoBehaviour
 {
-    List<Planes> wallPlanes;
+    Planes wallPlanes;
 
-    MeshFilter mf;
-    Mesh mesh;
-    List<Vec3> vertx;
+    [SerializeField] GameObject point;
+    [SerializeField] [Range(0, 1)] int normalDirection;
 
-    [SerializeField][Range(0,1)] int normalOrientation = 0; //0 es normal negativa / 1 es normal positiva
-    [SerializeField] PlaneOrientation planeOrientation = 0;
-
-    Vec3 normal;
-    Vec3 dir;
-    private void Awake()
-    {
-        vertx = new List<Vec3>();
-        wallPlanes = new List<Planes>();
-
-        mf = transform.GetComponent<MeshFilter>();
-        mesh = mf.sharedMesh;
-    }
     void Start()
     {
         MeshCalculator();
@@ -32,81 +17,62 @@ public class SetIndividualPlane : MonoBehaviour
 
     void MeshCalculator()
     {
-        switch (planeOrientation)
+        if (normalDirection == 0)
         {
-            case PlaneOrientation.Down:
-
-                dir = -transform.up;
-
-                break;
-            case PlaneOrientation.Up:
-                
-                dir = transform.up;
-                
-                break;
-            case PlaneOrientation.Forward:
-
-                dir = transform.forward;
-                
-                break;
-            case PlaneOrientation.Back:
-
-                dir = -transform.forward;
-
-                break;
-            case PlaneOrientation.Right:
-
-                dir = transform.right;
-
-                break;
-            case PlaneOrientation.Left:
-
-                dir = -transform.right;
-                
-                break;
-        }
-        if (normalOrientation == 0)
-        {
-            normal = dir;
+            wallPlanes = new Planes(transform.forward, transform.position);
         }
         else
         {
-            normal = -dir;
+            wallPlanes = new Planes(-transform.forward, transform.position);
         }
 
-        wallPlanes.Add(new Planes(normal, dir));
-       // GameManager.instance.addPlaneRoom(wallPlanes[(int)normalOrientation]);
-
+        GetComponentInParent<SetRoom>().AddPlaneToRoom(wallPlanes);
     }
 
-    private Vec3 FromLocalToWolrd(Vec3 point, Transform transformRef) //Transforma las coordenadas locales a globales
+    void Update()
     {
-        Vec3 result = Vector3.zero;
-
-        result = new Vector3(point.x * transformRef.localScale.x, point.y * transformRef.localScale.y, point.z * transformRef.localScale.z);
-
-        result = transformRef.rotation * result;
-
-        return (Vector3)result + transformRef.position;
-
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log(wallPlanes.GetSide(point.transform.position), gameObject);
+        }
     }
+
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(dir, 0.2f);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(normal, 0.2f);
-
         Gizmos.color = Color.red;
-        for (int i = 0; i < wallPlanes.Count; i++)
-        {
-        Gizmos.DrawSphere(wallPlanes[i].normal, 0.2f);
 
-        }
+        // Gizmos.DrawSphere(FromLocalToWolrd(wallPlanes.normal, transform) + (Vector3)wallPlanes.normal, 0.2f);
+
+        //  Handles.ArrowHandleCap(0, transform.position, Quaternion.Euler(transform.position + (Vector3)wallPlanes.normal), .25f, EventType.Repaint);
+
+        //if (!Application.isPlaying) return;
+
+        //Quaternion rotation = Quaternion.LookRotation(transform.TransformDirection(wallPlanes.normal));
+
+        //Matrix4x4 trs = Matrix4x4.TRS(transform.TransformPoint(wallPlanes.normal), rotation, Vector3.one);
+        //Gizmos.matrix = trs;
+        //Color32 color = Color.blue;
+        //color.a = 125;
+        //Gizmos.color = color;
+        //Gizmos.DrawCube(Vector3.zero - new Vector3(transform.localScale.x, 0, transform.localScale.z), new Vector3(.0001f, 3, 5));
+        //Gizmos.matrix = Matrix4x4.identity;
+        //Gizmos.color = Color.white;
+
     }
 #endif
+
+    private Vector3 FromLocalToWolrd(Vector3 point, Transform transformRef) //Recibe un punto y tansform de un objeto
+    {
+        Vector3 result = Vector3.zero;
+
+        result = new Vector3(point.x * transformRef.localScale.x, point.y * transformRef.localScale.y, point.z * transformRef.localScale.z); //Multiplica el punto por la escala
+
+        result = transformRef.rotation * result; //Luego multiplica el resutado por la rotacion
+
+        return result + transformRef.position; //El resutado le sumamos la posicion del objeto y retornamos las coordenadas en globales
+    }
+
 }
 
