@@ -93,14 +93,14 @@ public class BinarySearch : MonoBehaviour
             middle[i] = CalculateTheMiddle(intermediatePointsNear[i], intermediatePointsFar[i]);
         }
 
-        if (GameManager.instance.IsAPointInAnotherRoom(middle))
+        if (!GameManager.instance.IsAPointInAnotherRoom(middle))
         {
             for (int i = 0; i < resolutionGrid; i++)
             {
                 middle[i] = CalculateTheMiddle(middle[i], intermediatePointsFar[i]);
             }
         }
-        if (GameManager.instance.IsAPointInAnotherRoom(middle))
+        if (!GameManager.instance.IsAPointInAnotherRoom(middle))
         {
             for (int i = 0; i < resolutionGrid; i++)
             {
