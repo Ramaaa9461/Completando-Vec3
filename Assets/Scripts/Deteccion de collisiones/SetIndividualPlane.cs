@@ -6,6 +6,10 @@ using UnityEngine;
 public class SetIndividualPlane : MonoBehaviour
 {
     Planes wallPlanes;
+    [SerializeField] int min;
+    [SerializeField] int max;
+
+
     void Start()
     {
         setPlane();
@@ -13,6 +17,11 @@ public class SetIndividualPlane : MonoBehaviour
     void setPlane()
     {
         wallPlanes = new Planes(transform.forward, transform.position);
+
+        if (transform.name == "Rigth" || transform.name == "Forward")
+        {
+      //Chequear valores donde deberia estar la puerta
+        }
 
         GetComponentInParent<SetRoom>().AddPlaneToRoom(wallPlanes);
     }

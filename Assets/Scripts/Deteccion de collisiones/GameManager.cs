@@ -11,26 +11,26 @@ public class GameManager : MonoBehaviour
     List<SetRoom> stRooms;
     List<Planes[]> rooms;
 
-    Vec3 midpointInAnotherRoom;
-    bool inRoom;
+    public List<int> visibleRooms;
     public bool pointInAnotherRoom;
     int cameraRoomNumber = 0;
     int planeCount = 0;
+
+    Dictionary<int, List<int>> connectingRooms;
 
     void Awake()
     {
         instance = this;
 
         rooms = new List<Planes[]>();
+        visibleRooms = new List<int>();
         stRooms = new List<SetRoom>();
+        connectingRooms = new Dictionary<int, List<int>>();
     }
 
     private void Start()
     {
-        for (int i = 0; i < rooms.Count; i++)
-        {
-            stRooms[i].SetRoomMS(false);
-        }
+        RoomsConnectionTree();
     }
 
     public void addRoom(Planes[] room, SetRoom roomParent)
@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
         for (int i = 0; i < rooms.Count; i++)
         {
             for (int k = 0; k < rooms[i].Length; k++)
@@ -53,50 +52,114 @@ public class GameManager : MonoBehaviour
                     if (planeCount == rooms[i].Length)
                     {
                         cameraRoomNumber = i;
-                        inRoom = true;
                         stRooms[i].SetRoomMS(true);
                     }
                 }
                 else
                 {
-                    //no esta, corto la ejecucion y paso a la sigueinte habitacion
                     planeCount = 0;
                     stRooms[i].SetRoomMS(false);
                     k = rooms[i].Length;
                 }
             }
         }
+        //stRooms[SearchPointInRooms(midpointInAnotherRoom)].SetRoomMS(true);
+    }
+    void RoomsConnectionTree()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            connectingRooms.Add(i, new List<int>());
+        }
 
-        stRooms[SearchPointInRooms(midpointInAnotherRoom)].SetRoomMS(true);
+        connectingRooms[0].Add(8);
+        connectingRooms[0].Add(9);
+
+        connectingRooms[1].Add(3);
+        connectingRooms[1].Add(5);
+
+        connectingRooms[2].Add(5);
+        connectingRooms[2].Add(7);
+
+        connectingRooms[3].Add(1);
+        connectingRooms[3].Add(11);
+
+        connectingRooms[4].Add(10);
+        connectingRooms[4].Add(6);
+
+        connectingRooms[5].Add(1);
+        connectingRooms[5].Add(2);
+
+        connectingRooms[6].Add(4);
+        connectingRooms[6].Add(9);
+
+        connectingRooms[7].Add(2);
+        connectingRooms[7].Add(8);
+
+        connectingRooms[8].Add(7);
+        connectingRooms[8].Add(0);
+
+        connectingRooms[9].Add(6);
+        connectingRooms[9].Add(0);
+
+        connectingRooms[10].Add(4);
+        connectingRooms[10].Add(11);
+
+        connectingRooms[11].Add(3);
+        connectingRooms[11].Add(10);
     }
 
-    public bool IsAPointInAnotherRoom(Vec3[] middlePoint)
+    //public void IsAPointInAnotherRoom(Vec3[] middlePoint)
+    //{
+    //    for (int i = 0; i < 6; i++)
+    //    {
+    //        for (int k = 0; k < middlePoint.Length; k++)
+    //        {
+    //            if (!rooms[cameraRoomNumber][i].GetSide(middlePoint[k]))
+    //            {  
+    //                planeCount = 0;
+    //                midpointInAnotherRoom.Add(middlePoint[k]);
+    //            }
+    //        }
+    //    }
+    //}
+
+    public int IsAPointInTheSameRoom(Vec3 middlePoint)
     {
+        planeCount = 0;
+        visibleRooms.Add(cameraRoomNumber);
+
         for (int i = 0; i < 6; i++)
         {
-            for (int k = 0; k < middlePoint.Length; k++)
+            if (rooms[cameraRoomNumber][i].GetSide(middlePoint))
             {
-                if (rooms[cameraRoomNumber][i].GetSide(middlePoint[k]))
-                {
-                    planeCount++;
+                planeCount++;
 
-                    if (planeCount == 6)
-                    {
-                        pointInAnotherRoom = false;
-                        return false;
-                    }
-                }
-                else
+                if (planeCount == 6)
                 {
-                    planeCount = 0;
-                    pointInAnotherRoom = true;
-                    midpointInAnotherRoom = middlePoint[k];
-                    return true;
+                    return 0;
+                }
+
+            }
+            else
+            {
+                for (int k = 0; k < visibleRooms.Count; k++)
+                {
+                    for (int j = 0; j < connectingRooms[k].Count; j++)
+                    {
+                        stRooms[SearchPointInRooms(middlePoint)].SetRoomMS(true);
+
+                        if (visibleRooms.Contains(SearchPointInRooms(middlePoint)))
+                        {
+                            visibleRooms.Add(SearchPointInRooms(middlePoint));
+                        }
+
+                        return 1;
+                    }
                 }
             }
         }
-
-        return pointInAnotherRoom; // No deberia llegar nunca
+        return -1;
     }
 
     int SearchPointInRooms(Vec3 point)

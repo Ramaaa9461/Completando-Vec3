@@ -7,7 +7,7 @@ public class BinarySearch : MonoBehaviour
 {
     Camera cam;
     const uint maxVertexPerPlane = 4;
-    int resolutionGrid = 10;
+    int resolutionGrid = 60;
     bool binarySearchOutRange;
 
     Vector3[] frustumCornerFar = new Vector3[maxVertexPerPlane];
@@ -88,28 +88,27 @@ public class BinarySearch : MonoBehaviour
 
     void BinarySearchInRays()
     {
+        GameManager.instance.visibleRooms.Clear();
+
         for (int i = 0; i < resolutionGrid; i++)
         {
             middle[i] = CalculateTheMiddle(intermediatePointsNear[i], intermediatePointsFar[i]);
         }
 
-        if (!GameManager.instance.IsAPointInAnotherRoom(middle))
-        {
-            for (int i = 0; i < resolutionGrid; i++)
-            {
-                middle[i] = CalculateTheMiddle(middle[i], intermediatePointsFar[i]);
-            }
-        }
-        if (!GameManager.instance.IsAPointInAnotherRoom(middle))
-        {
-            for (int i = 0; i < resolutionGrid; i++)
-            {
-                middle[i] = CalculateTheMiddle(middle[i], intermediatePointsFar[i]);
-            }
-        }
-        binarySearchOutRange = GameManager.instance.pointInAnotherRoom;
 
-        Debug.Log(binarySearchOutRange);
+        for (int i = 0; i < resolutionGrid; i++)
+        {
+            Debug.Log(GameManager.instance.IsAPointInTheSameRoom(middle[i]));
+
+            if (GameManager.instance.IsAPointInTheSameRoom(middle[i]) == 0 || GameManager.instance.IsAPointInTheSameRoom(middle[i]) == 1)
+            {
+                middle[i] = CalculateTheMiddle(middle[i], intermediatePointsFar[i]);
+            }
+            if (GameManager.instance.IsAPointInTheSameRoom(middle[i]) == -1)
+            {
+                middle[i] = CalculateTheMiddle(intermediatePointsNear[i], middle[i]);
+            }
+        }
     }
 
 
@@ -117,6 +116,11 @@ public class BinarySearch : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+
         Gizmos.color = Color.yellow;
 
         for (int i = 0; i < maxVertexPerPlane; i++)
