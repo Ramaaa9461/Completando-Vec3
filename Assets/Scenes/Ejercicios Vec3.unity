@@ -147,12 +147,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510544252}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53a194e1dc0be84469790d5489ed630e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Exercise: 8
+  Exercise: 7
   vector1: {x: 10, y: 20, z: 30}
   vector2: {x: -10, y: 5, z: 10}
 --- !u!4 &510544254
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571323059}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 642327099, guid: 5defc71c69aa61f45aa76f775325cf97, type: 3}
   m_Name: 

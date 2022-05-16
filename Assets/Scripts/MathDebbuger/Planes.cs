@@ -13,7 +13,7 @@ namespace CustomMath
 
         private float m_Distance;
 
-        public Vec3 normal
+        public Vec3 normal //La normal del plano
         {
             get
             {
@@ -24,10 +24,8 @@ namespace CustomMath
                 m_Normal = value;
             }
         }
-        //
-        // Resumen:
-        //     The distance measured from the Plane to the origin, along the Plane's normal.
-        public float distance
+      
+        public float distance //Es la distancia desde el plano al origen, se mide a lo largo de la normal del plano
         {
             get
             {
@@ -38,23 +36,8 @@ namespace CustomMath
                 m_Distance = value;
             }
         }
-        //
-        // Resumen:
-        //     Returns a copy of the plane that faces in the opposite direction.
-        public Planes flipped => new Planes(-m_Normal, 0f - m_Distance);
-
-        #endregion
-
-        #region constants
-
-        internal const int size = 16;
-
-
-        #endregion
-
-        #region Default Values
-
-
+ 
+        public Planes flipped => new Planes(-m_Normal, 0f - m_Distance); //Retorna un nuevo plano mirando hacia la direccion opuesta
 
         #endregion
 
@@ -87,166 +70,66 @@ namespace CustomMath
 
         #region Functions
 
-        //
-        // Resumen:
-        //     Sets a plane using a point that lies within it along with a normal to orient
-        //     it.
-        //
-        // Parámetros:
-        //   inNormal:
-        //     The plane's normal vector.
-        //
-        //   inPoint:
-        //     A point that lies on the plane.
-        public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
+        public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint) //Asigna a un plano los valores que le llega por parametro
         {
             m_Normal = Vector3.Normalize(inNormal);
             m_Distance = 0f - Vec3.Dot(inNormal, inPoint);
         }
-        //
-        // Resumen:
-        //     Sets a plane using three points that lie within it. The points go around clockwise
-        //     as you look down on the top surface of the plane.
-        //
-        // Parámetros:
-        //   a:
-        //     First point in clockwise order.
-        //
-        //   b:
-        //     Second point in clockwise order.
-        //
-        //   c:
-        //     Third point in clockwise order.
-        public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
+
+
+        public void Set3Points(Vec3 a, Vec3 b, Vec3 c) //Posiciona un plano a partir de 3 puntos orientados con sentido a las abujas del reloj
         {
             m_Normal = Vector3.Normalize(Vec3.Cross(b - a, c - a));
             m_Distance = 0f - Vec3.Dot(m_Normal, a);
         }
 
-        //
-        // Resumen:
-        //     Makes the plane face in the opposite direction.
-        public void Flip()
+        public void Flip() //Gira 180° el plano
         {
             m_Normal = -m_Normal;
             m_Distance = 0f - m_Distance;
         }
 
-        //
-        // Resumen:
-        //     Moves the plane in space by the translation vector.
-        //
-        // Parámetros:
-        //   translation:
-        //     The offset in space to move the plane with.
-        public void Translate(Vec3 translation)
+        public void Translate(Vec3 translation) //Mueve el plano tomando como refencia un vector
         {
             m_Distance += Vec3.Dot(m_Normal, translation);
         }
 
-        //
-        // Resumen:
-        //     Returns a copy of the given plane that is moved in space by the given translation.
-        //
-        // Parámetros:
-        //   plane:
-        //     The plane to move in space.
-        //
-        //   translation:
-        //     The offset in space to move the plane with.
-        //
-        // Devuelve:
-        //     The translated plane.
-        public static Planes Translate(Planes planes, Vec3 translation)
+        public static Planes Translate(Planes planes, Vec3 translation) //Crea un nuevo plano en base al que llega por parametro y los mueve segun el vector que llega
         {
             return new Planes(planes.m_Normal, planes.m_Distance += Vec3.Dot(planes.m_Normal, translation));
         }
 
-        //
-        // Resumen:
-        //     For a given point returns the closest point on the plane.
-        //
-        // Parámetros:
-        //   point:
-        //     The point to project onto the plane.
-        //
-        // Devuelve:
-        //     A point on the plane that is closest to point.
-        public Vec3 ClosestPointOnPlane(Vec3 point)
+        public Vec3 ClosestPointOnPlane(Vec3 point) //Devuelve el punto mas cercano del plano en referencia al punto que llega por parametro
         {
             float num = Vec3.Dot(m_Normal, point) + m_Distance;
             return point - m_Normal * num;
         }
 
-        //
-        // Resumen:
-        //     Returns a signed distance from plane to point.
-        //
-        // Parámetros:
-        //   point:
-        public float GetDistanceToPoint(Vec3 point)
+        public float GetDistanceToPoint(Vec3 point) //Devuelve la distancia del plano al punto
         {
-            // return Vec3.Dot(m_Normal, point) + m_Distance;
              return (Vec3.Dot(m_Normal, point) + m_Distance) / point.magnitude;
         }
 
-        //
-        // Resumen:
-        //     Is a point on the positive side of the plane?
-        //
-        // Parámetros:
-        //   point:
-        public bool GetSide(Vec3 point)
+        public bool GetSide(Vec3 point) //Devuelve true si el punto esta a una distancia positiva del plano 
         {
-            //return Vec3.Dot(m_Normal, point) + m_Distance > 0f;
             return GetDistanceToPoint(point) >= 0f;
         }
 
-        //
-        // Resumen:
-        //     Are two points on the same side of the plane?
-        //
-        // Parámetros:
-        //   inPt0:
-        //
-        //   inPt1:
-        public bool SameSide(Vector3 inPt0, Vector3 inPt1)
+        public bool SameSide(Vector3 inPt0, Vector3 inPt1) // Chequea si 2 puntos estan del mismo lado del plano
         {
             float distanceToPoint = GetDistanceToPoint(inPt0);
             float distanceToPoint2 = GetDistanceToPoint(inPt1);
             return (distanceToPoint > 0f && distanceToPoint2 > 0f) || (distanceToPoint <= 0f && distanceToPoint2 <= 0f);
         }
 
-        public bool Raycast(Ray ray, out float enter)
-        {
-            float num = Vector3.Dot(ray.direction, m_Normal);
-            float num2 = 0f - Vector3.Dot(ray.origin, m_Normal) - m_Distance;
-            if (Mathf.Approximately(num, 0f))
-            {
-                enter = 0f;
-                return false;
-            }
-
-            enter = num2 / num;
-            return enter > 0f;
-        }
-
-        public override string ToString()
-        {
-            return ToString(null, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-        }
-
-        public string ToString(string format)
-        {
-            return ToString(format, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-        }
-
-        #endregion
-
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return string.Empty;
         }
+
+        #endregion
+
+
     }
 
 }

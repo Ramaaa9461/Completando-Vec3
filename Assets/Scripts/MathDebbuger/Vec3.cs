@@ -147,7 +147,7 @@ namespace CustomMath
             }
 
             float aux = Mathf.Clamp(Dot(from, to) / value, -1f, 1f); //Hace el calculo para conseguir la magnitud normalizada y lo clampea entre 1 y -1
-            return (float)Math.Acos(aux) * 57.29578f; //Multiplica el "Acos" del resultado * PI / 3
+            return (float)Math.Acos(aux) * 57.29578f; //Multiplica el "Acos" del resultado * PI / 3 (Es la conversion a Radianes) 
 
         } //https://answers.unity.com/questions/1294512/how-vectorangle-works-internally-in-unity.html
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
@@ -166,11 +166,11 @@ namespace CustomMath
         }
         public static float Magnitude(Vec3 vector)
         {
-            return (float)Mathf.Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+            return (float)Mathf.Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z); // RAIZ x2 y2 z2
         }
-        public static Vec3 Cross(Vec3 a, Vec3 b)
+        public static Vec3 Cross(Vec3 a, Vec3 b) 
         {
-            return new Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+            return new Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); //Retorna el vector perpenticular (El eje que falta)
         }
         public static float Distance(Vec3 a, Vec3 b)
         {
@@ -180,7 +180,7 @@ namespace CustomMath
 
             return Mathf.Sqrt(dx * dx + dy * dy + dz * dz);
         }
-        public static float Dot(Vec3 a, Vec3 b)
+        public static float Dot(Vec3 a, Vec3 b) // Si es 0 los vectores forman entre sí un ángulo recto (90º).
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
         }
@@ -207,18 +207,20 @@ namespace CustomMath
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal)
         {
-            float num = Dot(onNormal, onNormal);
-            if (num < Mathf.Epsilon)
+            float num = Dot(onNormal, onNormal); 
+
+            if (num < Mathf.Epsilon) //Chequea que sea un numero mayor a Epsiolon (Numero muy pequeño cercano a 0) 
             {
                 return zero;
             }
 
-            float num2 = Dot(vector, onNormal);
-            return new Vec3(onNormal.x * num2 / num, onNormal.y * num2 / num, onNormal.z * num2 / num);
+            float num2 = Dot(vector, onNormal); //Chequea si el vector y la normal tienen la misma direccion
+            return new Vec3(onNormal.x * num2 / num, onNormal.y * num2 / num, onNormal.z * num2 / num); //Calcula cuando se va a proyectar uno sobre otro
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal)
         {
             float num = -2f * Dot(inNormal, inDirection);
+
             return new Vec3(num * inNormal.x + inDirection.x, num * inNormal.y + inDirection.y, num * inNormal.z + inDirection.z);
         }
         public void Set(float newX, float newY, float newZ)
@@ -272,12 +274,3 @@ namespace CustomMath
 }
 
 
-//Ejercicio 1: SUMA vectores
-//Ejercicio 2: RESTA vectores
-//Ejercicio 3: Multiplica vectores
-//Ejercicio 4: Producto Cruz
-//Ejercicio 5: lerp de la trayectoria entre un vector y otro?
-//Ejercicio 6: Toma el maximo de cada eje
-//Ejercicio 7: Proyeccion
-//Ejercicio 8: Suma a y b normalizada y el largo es la distancia entre a y b
-//

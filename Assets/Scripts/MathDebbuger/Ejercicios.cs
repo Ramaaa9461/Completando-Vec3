@@ -78,13 +78,13 @@ public class Ejercicios : MonoBehaviour
 
                 result = Vec3.Lerp(vec1, vec2, interpolationRatio);
 
-
-                interpolationRatio += 0.005f;
-//float a = 10000f * Time.deltaTime; //aca A me da que es = 0, por eso no estoy usando el delta time
-
-                if (interpolationRatio > 1)
+                if (interpolationRatio < 1)
                 {
-                    interpolationRatio = 0.1f;
+                    interpolationRatio += Time.deltaTime;
+                }
+                else
+                {
+                    interpolationRatio = 0;
                 }
 
                 break;
@@ -95,20 +95,36 @@ public class Ejercicios : MonoBehaviour
                 break;
             case 7:
 
-                Vec3 largeTovec3Result = vec1 + vec2 * 2;
-                result = Vec3.Project(largeTovec3Result, vec2); // Tira bien la proyeccion, pero la hace inversa y mas corta
+              //  Vec3 largeTovec3Result = vec1 + vec2 * 2;
+                result = Vec3.Project(vec1, vec2); // Tira bien la proyeccion, pero la hace inversa y mas corta
 
                 break;
             case 8:
 
+                Vec3 normalizedVec = new Vec3(vec1 + vec2).normalized;
+                float distanceVec = Vec3.Distance(vec1,vec2);
+
+                result = normalizedVec * distanceVec;
              
                 break;
             case 9:
-                
+
+                result = Vec3.Reflect(vec1, vec2.normalized);
 
 
                 break;
             case 10:
+
+                result = Vec3.LerpUnclamped(vec2, vec1, interpolationRatio);
+
+                if (interpolationRatio < 10)
+                {
+                    interpolationRatio += Time.deltaTime;
+                }
+                else
+                {
+                    interpolationRatio = 0;
+                }
 
                 break;
 
@@ -129,8 +145,11 @@ public class Ejercicios : MonoBehaviour
 //Ejercicio 1: SUMA vectores
 //Ejercicio 2: RESTA vectores
 //Ejercicio 3: Multiplica vectores
-//Ejercicio 4: Producto Cruz
-//Ejercicio 5: lerp ?
+//Ejercicio 4: -Producto Cruz
+//Ejercicio 5: Lerp 
 //Ejercicio 6: Toma el maximo de cada eje
 //Ejercicio 7: Proyeccion
+//Ejercicio 8: Suma de Vectores Normalizados * su distancia
+//Ejercicio 9: Reflexion
+//Ejercicio 10: Unclamped Lerp
 //

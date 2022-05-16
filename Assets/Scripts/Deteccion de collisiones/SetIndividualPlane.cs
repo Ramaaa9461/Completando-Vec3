@@ -6,8 +6,8 @@ using UnityEngine;
 public class SetIndividualPlane : MonoBehaviour
 {
     Planes wallPlanes;
-    [SerializeField] int min;
-    [SerializeField] int max;
+    public int min;
+    public int max;
 
 
     void Start()
@@ -20,7 +20,9 @@ public class SetIndividualPlane : MonoBehaviour
 
         if (transform.name == "Rigth" || transform.name == "Forward")
         {
-      //Chequear valores donde deberia estar la puerta
+            //Chequear valores donde deberia estar la puerta
+            min = 2;
+            max = 3;
         }
 
         GetComponentInParent<SetRoom>().AddPlaneToRoom(wallPlanes);

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Camera cam;
     List<SetRoom> stRooms;
     List<Planes[]> rooms;
-
+  
     public List<int> visibleRooms;
     public bool pointInAnotherRoom;
     int cameraRoomNumber = 0;
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
         rooms = new List<Planes[]>();
         visibleRooms = new List<int>();
+
         stRooms = new List<SetRoom>();
         connectingRooms = new Dictionary<int, List<int>>();
     }
@@ -63,7 +64,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        //stRooms[SearchPointInRooms(midpointInAnotherRoom)].SetRoomMS(true);
     }
     void RoomsConnectionTree()
     {
@@ -147,11 +147,18 @@ public class GameManager : MonoBehaviour
                 {
                     for (int j = 0; j < connectingRooms[k].Count; j++)
                     {
-                        stRooms[SearchPointInRooms(middlePoint)].SetRoomMS(true);
+                        int pointRoom = SearchPointInRooms(middlePoint);
 
-                        if (visibleRooms.Contains(SearchPointInRooms(middlePoint)))
+                        if (pointRoom == -1)
                         {
-                            visibleRooms.Add(SearchPointInRooms(middlePoint));
+                            continue;
+                        }
+
+                        stRooms[pointRoom].SetRoomMS(true);
+
+                        if (visibleRooms.Contains(pointRoom))
+                        {
+                            visibleRooms.Add(pointRoom);
                         }
 
                         return 1;
@@ -161,10 +168,17 @@ public class GameManager : MonoBehaviour
         }
         return -1;
     }
+    
+    void door()
+    {
+
+
+
+    }
 
     int SearchPointInRooms(Vec3 point)
     {
-        int numberRoom = 0;
+        int numberRoom = -1;
 
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -187,6 +201,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return numberRoom;
+        return numberRoom; //A veces devuelve 0 y prende la hab 0 cuando no se ve
     }
 }

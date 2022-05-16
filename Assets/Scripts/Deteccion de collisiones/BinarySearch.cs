@@ -98,7 +98,6 @@ public class BinarySearch : MonoBehaviour
 
         for (int i = 0; i < resolutionGrid; i++)
         {
-            Debug.Log(GameManager.instance.IsAPointInTheSameRoom(middle[i]));
 
             if (GameManager.instance.IsAPointInTheSameRoom(middle[i]) == 0 || GameManager.instance.IsAPointInTheSameRoom(middle[i]) == 1)
             {
