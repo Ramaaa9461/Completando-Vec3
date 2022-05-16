@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 namespace CustomMath
@@ -178,13 +176,15 @@ namespace CustomMath
             float dy = a.y - b.y;
             float dz = a.z - b.z;
 
-            return Mathf.Sqrt(dx * dx + dy * dy + dz * dz);
+            return Mathf.Sqrt(dx * dx + dy * dy + dz * dz); //retorna la magnitud de los diferenciales de los ejes
         }
-        public static float Dot(Vec3 a, Vec3 b) // Si es 0 los vectores forman entre sí un ángulo recto (90º).
+        public static float Dot(Vec3 a, Vec3 b) 
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
+
+          //si el vector esta normalizado, Dot devuelve 1 si apuntan exactamente en la misma dirección, -1 si apuntan en direcciones completamente opuestas y cero si los vectores son perpendiculares.
         }
-        public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
+        public static Vec3 Lerp(Vec3 a, Vec3 b, float t) //Interpolacion Lineal
         {
             t = Mathf.Clamp01(t);
             return new Vec3(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t);
@@ -207,7 +207,7 @@ namespace CustomMath
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal)
         {
-            float num = Dot(onNormal, onNormal); 
+            float num = Dot(onNormal, onNormal); //Magnitud al cuadrado
 
             if (num < Mathf.Epsilon) //Chequea que sea un numero mayor a Epsiolon (Numero muy pequeño cercano a 0) 
             {
@@ -215,13 +215,11 @@ namespace CustomMath
             }
 
             float num2 = Dot(vector, onNormal); //Chequea si el vector y la normal tienen la misma direccion
-            return new Vec3(onNormal.x * num2 / num, onNormal.y * num2 / num, onNormal.z * num2 / num); //Calcula cuando se va a proyectar uno sobre otro
+            return new Vec3(onNormal.x * num2 / num, onNormal.y * num2 / num, onNormal.z * num2 / num); //Calcula cuanto se va a proyectar uno sobre otro
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal)
         {
-            float num = -2f * Dot(inNormal, inDirection);
-
-            return new Vec3(num * inNormal.x + inDirection.x, num * inNormal.y + inDirection.y, num * inNormal.z + inDirection.z);
+            return new Vec3(inDirection - 2 * Project(inDirection, inNormal)); // Se calcula la proyccion y se la multiplica por -2 para "Se proyecte en forma de reflejo"
         }
         public void Set(float newX, float newY, float newZ)
         {
@@ -233,17 +231,17 @@ namespace CustomMath
             y *= scale.y;
             z *= scale.z;
         }
-        public Vec3 Normalize(Vec3 inNormal)
+        public Vec3 Normalize(Vec3 vector)
         {
-            //float mag = inNormal.magnitude;
-            //inNormal.x /= mag;
-            //inNormal.y /= mag;
-            //inNormal.z /= mag;
+            //float mag = vector.magnitude;
+            //vector.x /= mag;
+            //vector.y /= mag;
+            //vector.z /= mag;
 
-            float num = Magnitude(inNormal);
+            float num = Magnitude(vector);
             if (num > 1E-05f)
             {
-                return inNormal / num;
+                return vector / num;
             }
             else
             {
@@ -274,3 +272,7 @@ namespace CustomMath
 }
 
 
+
+
+//Cross: La magnitud del vector resultante es igual a las magnitudes de los dos vectores multiplicadas juntas y luego multiplicadas por el seno del ángulo entre esos vectores.
+// El producto punto es un valor flotante igual a las magnitudes de los dos vectores multiplicados juntos y luego multiplicados por el coseno del ángulo entre ellos.
