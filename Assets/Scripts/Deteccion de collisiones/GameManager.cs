@@ -200,6 +200,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return numberRoom; //A veces devuelve 0 y prende la hab 0 cuando no se ve
+        return numberRoom; 
     }
 }

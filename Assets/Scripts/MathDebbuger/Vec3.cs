@@ -231,7 +231,7 @@ namespace CustomMath
             y *= scale.y;
             z *= scale.z;
         }
-        public Vec3 Normalize(Vec3 vector)
+        public static Vec3 Normalize(Vec3 vector)
         {
             //float mag = vector.magnitude;
             //vector.x /= mag;

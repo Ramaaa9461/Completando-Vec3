@@ -93,8 +93,7 @@ public class Ejercicios : MonoBehaviour
                 break;
             case 7:
 
-              //  Vec3 largeTovec3Result = vec1 + vec2 * 2;
-                result = Vec3.Project(vec1, vec2); // Tira bien la proyeccion, pero la hace inversa y mas corta
+                result = Vec3.Project(vec1, vec2); 
 
                 break;
             case 8:
@@ -138,8 +137,6 @@ public class Ejercicios : MonoBehaviour
     }
 }
 
-
-
 //Ejercicio 1: SUMA vectores
 //Ejercicio 2: RESTA vectores
 //Ejercicio 3: Multiplica vectores
@@ -150,4 +147,3 @@ public class Ejercicios : MonoBehaviour
 //Ejercicio 8: Suma de Vectores Normalizados * su distancia
 //Ejercicio 9: Reflexion
 //Ejercicio 10: Unclamped Lerp
-//

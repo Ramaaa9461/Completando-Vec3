@@ -94,7 +94,6 @@ public class BinarySearch : MonoBehaviour
             middle[i] = CalculateTheMiddle(intermediatePointsNear[i], intermediatePointsFar[i]);
         }
 
-
         for (int i = 0; i < resolutionGrid; i++)
         {
 
